@@ -1,1 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Feliz Cumpleaños, Fabiana!</title>
+    <style>
+        /* --- ESTILOS GENERALES Y FONDO --- */
+        body {
+            background: radial-gradient(circle, #2e1a47 0%, #100a1f 100%);
+            color: #ffffff;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            perspective: 1000px;
+        }
 
+        /* --- PANTALLA DE BIENVENIDA (CORTINA) --- */
+        #welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #100a1f;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            transition: opacity 1s ease, visibility 1s;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #ff6b81, #e94560);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(233, 69, 96, 0.6);
+            animation: pulseBtn 2s infinite;
+            transition: transform 0.2s;
+        }
+
+        .btn-start:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes pulseBtn {
+            0%, 100% { box-shadow: 0 0 20px rgba(233, 69, 96, 0.6); }
+            50% { box-shadow: 0 0 35px rgba(255, 107, 129, 0.9); }
+        }
+
+        /* --- TÍTULO ANIMADO --- */
+        h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(to right, #ff6b81, #ff9f43, #edffea, #a29bfe, #ff6b81);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            text-shadow: 0 0 15px rgba(255, 107, 129, 0.4);
+            margin-bottom: 5px;
+            text-align: center;
+            animation: gradientText 4s linear infinite, floatTitle 3s ease-in-out infinite;
+        }
+
+        @keyframes gradientText { to { background-position: 200% center; } }
+        @keyframes floatTitle {
+            0%, 100% { transform: translateY(0) rotate(-1deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
+        }
+
+        p.message {
+            font-size: 1.3rem;
+            color: #f1a7b4;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        /* --- CONTENEDOR Y PASTEL --- */
+        .cake-container {
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotateCake 15s linear infinite;
+        }
+
+        @keyframes rotateCake {
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(360deg); }
+        }
+
+        .cake {
+            position: relative;
+            width: 220px;
+            height: 160px;
+            background: #6c4675;
+            border-radius: 15px 15px 0 0;
+            box-shadow: inset 0 15px 0 #4a3050, 0 15px 30px rgba(0,0,0,0.5);
+            transform: translateZ(50px);
+        }
+
+        .cake::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background: #f1a7b4;
+            border-radius: 15px 15px 30px 30px;
+            box-shadow: 0 5px 10px rgba(241, 167, 180, 0.5);
+        }
+
+        /* --- VELAS --- */
+        .candles {
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%) translateZ(60px);
+            display: flex;
+            gap: 30px;
+        }
+
+        .candle {
+            width: 14px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff6b81 0%, #e94560 100%);
+            border-radius: 5px 5px 0 0;
+            position: relative;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            transition: transform 0.2s ease;
+        }
+
+        .candle:hover { transform: scale(1.1); }
+
+        .candle::before {
+            content: "";
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 8px;
+            background: #333;
+        }
+
+        /* Llama */
+        .flame {
+            position: absolute;
+            top: -22px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 20px;
+            background: #ffd369;
+            border-radius: 50% 50% 20% 20%;
+            box-shadow: 0 0 15px #ffd369, 0 0 30px #ff6b81;
+            animation: flicker 0.5s infinite alternate;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        @keyframes flicker {
+            0% { transform: translateX(-50%) scale(1) rotate(-2deg); }
+            100% { transform: translateX(-50%) scale(1.1) rotate(2deg); }
+        }
+
+        .candle.extinguished .flame {
+            opacity: 0;
+            transform: translateX(-50%) scale(0);
+            pointer-events: none;
+        }
+
+        /* Corazón de deseo flotante */
+        .wish-heart {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.5s;
+        }
+
+        .candle.extinguished .wish-heart {
+            animation: floatHeart 2s ease-out forwards;
+        }
+
+        @keyframes floatHeart {
+            0% { opacity: 0; transform: translateX(-50%) translateY(0) scale(0.5); }
+            20% { opacity: 1; transform: translateX(-50%) translateY(-15px) scale(1.2); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(-80px) scale(1); }
+        }
+
+        /* Plato */
+        .plate {
+            width: 300px;
+            height: 20px;
+            background: #eceff1;
+            border-radius: 15px;
+            margin-top: -5px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            transform: rotateX(80deg) translateZ(-10px);
+        }
+
+        /* Confeti */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            opacity: 0.8;
+            border-radius: 50%;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(105vh) rotate(calc(var(--rotation) * 1deg)); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="welcome-screen">
+        <h1 style="font-size: 2.5rem; margin-bottom: 30px;">¡Para Fabiana con cariño! ✨</h1>
+        <button class="btn-start" onclick="initSurprise()">Abrir Sorpresa 🎁</button>
+    </div>
+
+    <audio id="applause-sound" src="https://assets.mixkit.co/active_storage/sfx/2012/2012-84.wav" preload="auto"></audio>
+
+    <h1>¡Feliz Cumpleaños, Fabiana! 🌟</h1>
+    <p class="message">Cada vela es un deseo. Haz clic para apagarlas y enviarlos al cielo.</p>
+
+    <div class="cake-container">
+        <div class="cake">
+            <div class="candles">
+                <div class="candle" onclick="extinguish(this)">
+                    <div class="flame"></div>
+                    <div class="wish-heart">🧡</div>
+                </div>
+                <div class="candle" onclick="extinguish(this)">
+                    <div class="flame"></div>
+                    <div class="wish-heart">💛</div>
+                </div>
+                <div class="candle" onclick="extinguish(this)">
+                    <div class="flame"></div>
+                    <div class="wish-heart">💖</div>
+                </div>
+            </div>
+        </div>
+        <div class="plate"></div>
+    </div>
+
+    <script>
+        const applause = document.getElementById('applause-sound');
+
+        // Función que quita la pantalla de inicio y arranca el sonido
+        function initSurprise() {
+            const welcome = document.getElementById('welcome-screen');
+            welcome.style.opacity = '0';
+            setTimeout(() => {
+                welcome.style.visibility = 'hidden';
+            }, 1000);
+
+            // Reproduce los aplausos iniciales al entrar
+            applause.volume = 0.5;
+            applause.play().catch(error => console.log("Audio bloqueado inicialmente:", error));
+        }
+
+        function extinguish(candle) {
+            if (!candle.classList.contains('extinguished')) {
+                candle.classList.add('extinguished');
+                
+                const totalCandles = document.querySelectorAll('.candle').length;
+                const extinguishedCandles = document.querySelectorAll('.candle.extinguished').length;
+                
+                if (totalCandles === extinguishedCandles) {
+                    setTimeout(() => { celebrate(); }, 1500);
+                }
+            }
+        }
+
+        function celebrate() {
+            document.querySelector('.cake-container').style.animationPlayState = 'paused';
+            
+            // Volver a reproducir los aplausos con fuerza para la celebración del confeti
+            applause.currentTime = 0;
+            applause.volume = 0.7;
+            applause.play();
+
+            const duration = 4000;
+            const end = Date.now() + duration;
+
+            (function frame() {
+                createConfettiPiece();
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                } else {
+                    alert('✨ ¡Fabiana, que todos esos deseos se vuelvan realidad! ¡A celebrar en grande! ✨');
+                }
+            }());
+        }
+
+        function createConfettiPiece() {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            const colors = ['#ff6b81', '#ff9f43', '#1dd1a1', '#a29bfe', '#54a0ff'];
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.top = -10 + 'px';
+            confetti.style.setProperty('--rotation', Math.random() * 360);
+            const size = Math.random() * 10 + 5 + 'px';
+            confetti.style.width = size;
+            confetti.style.height = size;
+            const duration = Math.random() * 3 + 2 + 's';
+            confetti.style.animationDuration = duration;
+            document.body.appendChild(confetti);
+            setTimeout(() => { confetti.remove(); }, parseFloat(duration) * 1000);
+        }
+    </script>
+
+</body>
+</html>
